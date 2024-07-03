@@ -5,6 +5,7 @@ variable "aws_region" {
 
 variable "ec2_key_pair_name" {
   description = "Name of the EC2 key pair to use for the Elastic Beanstalk environment"
+  type        = string
 }
 
 variable "vpc_id" {

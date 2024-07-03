@@ -23,7 +23,7 @@ provider "aws" {
      setting {
        namespace = "aws:autoscaling:launchconfiguration"
        name      = "EC2KeyName"
-       value     = "your-existing-ec2-key-pair-name"
+       value     = "var.ec2_key_pair_name"
      }
 
      setting {
