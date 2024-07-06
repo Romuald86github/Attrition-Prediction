@@ -2,13 +2,14 @@ import os
 import pandas as pd
 import numpy as np
 import requests
+from io import StringIO
 from mage_ai.data_preparation.decorators import data_loader, data_exporter
 
 @data_loader
 def load_data(url):
     """Load the raw data from the provided URL and save it to the 'data_loaders/raw_data.csv' file."""
     response = requests.get(url)
-    data = pd.read_csv(pd.compat.StringIO(response.text))
+    data = pd.read_csv(StringIO(response.text))
 
     # Save the raw data to 'data_loaders/raw_data.csv'
     os.makedirs('data_loaders', exist_ok=True)
