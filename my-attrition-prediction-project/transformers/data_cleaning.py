@@ -35,19 +35,18 @@ def clean_data(data):
     # (3) Set 'EmployeeNumber' as the index
     data.set_index('EmployeeNumber', inplace=True)
 
-    # (4) Remove numerical features with absolute z-score > 3
+    # (4) Remove rows with numerical features having absolute z-score > 3
     numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
     z_scores = np.abs(data[numerical_cols].apply(lambda x: (x - x.mean()) / x.std(), axis=0))
-    outlier_cols = z_scores[z_scores > 3].any().index
-    data = data.drop(outlier_cols, axis=1)
+    data = data[(z_scores <= 3).all(axis=1)]
 
     # (5) Save the cleaned data
     os.makedirs('transformers', exist_ok=True)
-    data.to_csv(os.path.join('transformers', 'clean_data.csv'), index=False)
+    data.to_csv(os.path.join('transformers', 'clean_data.csv'))
 
     return data
 
 if __name__ == "__main__":
-    url = "https://github.com/Romuald86github/Internship/blob/main/employee_attrition.csv"
+    url = "https://raw.githubusercontent.com/Romuald86github/Internship/main/employee_attrition.csv"
     raw_data = load_data(url)
     clean_data(raw_data)
