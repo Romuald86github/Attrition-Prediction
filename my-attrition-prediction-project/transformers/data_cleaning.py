@@ -45,6 +45,6 @@ def clean_data(data):
     return data
 
 if __name__ == "__main__":
-    url = "https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset"
+    url = "https://github.com/Romuald86github/Internship/blob/main/employee_attrition.csv"
     raw_data = load_data(url)
     clean_data(raw_data)
