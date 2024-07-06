@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import numpy as np
 import requests
-from scipy.stats import zscore
 from io import StringIO
 from mage_ai.data_preparation.decorators import data_loader, data_exporter
 
@@ -36,20 +35,7 @@ def clean_data(data):
     # (3) Set 'EmployeeNumber' as the index
     data.set_index('EmployeeNumber', inplace=True)
 
-    # (4) Remove rows with numerical features having absolute z-score > 3
-    numerical_cols = [col for col in data.columns if data[col].dtype in ['float64', 'int64']]
-    feat = data[numerical_cols]
-
-    # Calculate z-scores using scipy.stats.zscore
-    z_scores = zscore(feat)
-
-    # Convert the result to a DataFrame
-    z_score_df = pd.DataFrame(z_scores, columns=feat.columns, index=feat.index)
-
-    # Filter rows where all z-scores are less than 3
-    data = data[(z_score_df < 3).all(axis=1)]
-
-    # (5) Save the cleaned data
+    # (4) Save the cleaned data
     file_path = os.path.join('my-attrition-prediction-project', 'transformers', 'clean_data.csv')
     data.to_csv(file_path)
 
