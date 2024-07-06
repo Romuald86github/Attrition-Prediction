@@ -1,0 +1,23 @@
+name: attrition_prediction
+
+blocks:
+  - name: data_cleaning
+    file: data_exporters/data_cleaning.py
+    function_name: clean_data
+  - name: feature_selection
+    file: features/feature_selection.py
+    function_name: select_features
+  - name: preprocessing
+    file: features/preprocessing.py
+    function_name: preprocess_data
+  - name: training
+    file: models/training.py
+    function_name: train_and_evaluate_models
+
+dependencies:
+  - data_cleaning
+  - feature_selection
+  - preprocessing
+  - training
+
+tracking_uri: http://mlflow:5000
