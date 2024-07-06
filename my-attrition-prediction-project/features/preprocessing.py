@@ -47,7 +47,16 @@ def preprocess_data(data, target_column):
 
     # Save the preprocessed data
     os.makedirs('my-attrition-prediction-project/features', exist_ok=True)
-    pd.to_pickle((X_train, X_val, X_test, y_train, y_val, y_test), 'my-attrition-prediction-project/features/preprocessed_data.pkl')
+    pd.to_pickle(X_train, 'my-attrition-prediction-project/features/X_train.pkl')
+    pd.to_pickle(X_val, 'my-attrition-prediction-project/features/X_val.pkl')
+    pd.to_pickle(X_test, 'my-attrition-prediction-project/features/X_test.pkl')
+    pd.to_pickle(y_train, 'my-attrition-prediction-project/features/y_train.pkl')
+    pd.to_pickle(y_val, 'my-attrition-prediction-project/features/y_val.pkl')
+    pd.to_pickle(y_test, 'my-attrition-prediction-project/features/y_test.pkl')
+
+    # Save the entire preprocessed dataset
+    preprocessed_data = (X_train, X_val, X_test, y_train, y_val, y_test)
+    pd.to_pickle(preprocessed_data, 'my-attrition-prediction-project/features/preprocessed_data.pkl')
 
     return X_train, X_val, X_test, y_train, y_val, y_test
 
