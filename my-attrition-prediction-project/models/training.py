@@ -6,7 +6,10 @@ import json
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-from mage_ai.data_preparation.decorators import data_loader, train
+from mage_ai.data_preparation.decorators import data_loader
+from mage_ai.data_preparation.repo_service import get_repo_service
+
+repo_service = get_repo_service()
 
 @data_loader
 def load_data():
@@ -14,7 +17,7 @@ def load_data():
         X_train, X_val, X_test, y_train, y_val, y_test = pickle.load(f)
     return X_train, X_val, X_test, y_train, y_val, y_test
 
-@train
+@repo_service.train
 def train_and_evaluate_models(X_train, y_train, X_val, y_val, X_test, y_test):
     models = [
         RandomForestClassifier(random_state=42)
