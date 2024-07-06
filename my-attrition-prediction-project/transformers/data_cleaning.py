@@ -9,11 +9,14 @@ from mage_ai.data_preparation.decorators import data_loader, data_exporter
 def load_data(url):
     """Load the raw data from the provided URL and save it to the 'data_loaders/raw_data.csv' file."""
     response = requests.get(url)
-    data = pd.read_csv(StringIO(response.text))
 
     # Save the raw data to 'data_loaders/raw_data.csv'
     os.makedirs('data_loaders', exist_ok=True)
-    data.to_csv(os.path.join('data_loaders', 'raw_data.csv'), index=False)
+    with open(os.path.join('data_loaders', 'raw_data.csv'), 'wb') as f:
+        f.write(response.content)
+
+    # Read the CSV data
+    data = pd.read_csv(os.path.join('data_loaders', 'raw_data.csv'))
 
     return data
 
@@ -45,6 +48,6 @@ def clean_data(data):
     return data
 
 if __name__ == "__main__":
-    url = "https://github.com/Romuald86github/Internship/blob/main/employee_attrition.csv"
+    url = "https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset"
     raw_data = load_data(url)
     clean_data(raw_data)
