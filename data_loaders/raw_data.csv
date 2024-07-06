@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>IBM HR Analytics Employee Attrition &amp; Performance | Kaggle</title>
+  <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+  <meta name="description" content="Predict attrition of your valuable employees" />
+    <meta name="keywords" content="business,software,employment" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="theme-color" content="#008ABC" />
+  <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" type="text/javascript">
+    window["pageRequestStartTime"] = 1720298414700;
+    window["pageRequestEndTime"] = 1720298414787;
+    window["initialPageLoadStartTime"] = new Date().getTime();
+  </script>
+  <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" id="gsi-client" src="https://accounts.google.com/gsi/client" async defer></script>
+  <script nonce="0MVZr7QoK0jxIdNtdlh/zw==">window.KAGGLE_JUPYTERLAB_PATH = "/static/assets/jupyterlab/jupyterlab-index-77f9ea432465831cb95e.html";</script>
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin="anonymous" /><link rel="preconnect" href="https://stats.g.doubleclick.net" /><link rel="preconnect" href="https://storage.googleapis.com" /><link rel="preconnect" href="https://apis.google.com" />
+  <link href="/static/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <link rel="manifest" href="/static/json/manifest.json" crossorigin="use-credentials">
+
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,400i,500,500i,600,600i,700,700i&display=swap"
+    rel="preload" as="style" />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:FILL@0..1&display=block"
+    rel="preload" as="style" />
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,400i,500,500i,600,600i,700,700i&display=swap"
+    rel="stylesheet" media="print" id="async-google-font-1" />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:FILL@0..1&display=block"
+    rel="stylesheet" media="print" id="async-google-font-2" />
+  <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" type="text/javascript">
+    const styleSheetIds = ["async-google-font-1", "async-google-font-2"];
+    styleSheetIds.forEach(function (id) {
+      document.getElementById(id).addEventListener("load", function() {
+        this.media = "all";
+      });
+    });
+  </script>
+
+
+    <link rel="canonical" href="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/vendor.css?v=dne" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/app.css?v=1aaf0cce03c1160dea33" />
+
+  
+    
+ 
+      <script nonce="0MVZr7QoK0jxIdNtdlh/zw==">
+        try{(function(a,s,y,n,c,h,i,d,e){d=s.createElement("style");
+        d.appendChild(s.createTextNode(""));s.head.appendChild(d);d=d.sheet;
+        y=y.map(x => d.insertRule(x + "{ opacity: 0 !important }"));
+        h.start=1*new Date;h.end=i=function(){y.forEach(x => x<d.cssRules.length ? d.deleteRule(x) : {})};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+        })(window,document,['.site-header-react__nav'],'dataLayer',2000,{'GTM-52LNT9S':true});}catch(ex){}
+    </script>
+    <script nonce="0MVZr7QoK0jxIdNtdlh/zw==">
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-T7QHS60L4Q', {
+            'optimize_id': 'GTM-52LNT9S',
+            'displayFeaturesTask': null,
+            'send_page_view': false,
+            'content_group1': 'Datasets'
+        });
+    </script>
+    <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" async src="https://www.googletagmanager.com/gtag/js?id=G-T7QHS60L4Q"></script>
+
+  
+    
+    <meta property="og:url" content="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" />
+    <meta property="og:title" content="IBM HR Analytics Employee Attrition &amp; Performance" />
+    <meta property="og:description" content="Predict attrition of your valuable employees" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://storage.googleapis.com/kaggle-datasets-images/1067/1925/5fc43e97e25975d1a14cba2e706255cb/dataset-card.jpg" />
+    <meta property="fb:app_id" content="2665027677054710" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kaggledatasets" />
+
+
+  <meta name="twitter:site" content="@Kaggle" /> 
+  
+    
+            <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" type="application/ld+json">{"@context":"http://schema.org/","@type":"Dataset","name":"IBM HR Analytics Employee Attrition &amp; Performance","description":"Uncover the factors that lead to employee attrition and explore important questions such as ‘show me a breakdown of distance from home by job role and attrition’ or ‘compare average monthly income by education and attrition’. This is a fictional data set created by IBM data scientists.\n\nEducation\n\t1 'Below College'\n\t2 'College'\n\t3 'Bachelor'\n\t4 'Master'\n\t5 'Doctor'\n\t\nEnvironmentSatisfaction\n\t1 'Low'\n\t2 'Medium'\n\t3 'High'\n\t4 'Very High'\n\t\nJobInvolvement\t\n        1 'Low'\n\t2 'Medium'\n\t3 'High'\n\t4 'Very High'\n\t\nJobSatisfaction\t\n       1 'Low'\n\t2 'Medium'\n\t3 'High'\n\t4 'Very High'\n\t\nPerformanceRating\t\n        1 'Low'\n\t2 'Good'\n\t3 'Excellent'\n\t4 'Outstanding'\n\t\nRelationshipSatisfaction\t\n        1 'Low'\n\t2 'Medium'\n\t3 'High'\n\t4 'Very High'\n\t\nWorkLifeBalance\t\n        1 'Bad'\n\t2 'Good'\n\t3 'Better'\n\t4 'Best'","url":"https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset","version":1,"keywords":["subject, people and society, business","subject, science and technology, computer science, software","subject, people and society, jobs and career, employment"],"license":{"@type":"CreativeWork","name":"Database: Open Database, Contents: Database Contents","url":"http://opendatacommons.org/licenses/dbcl/1.0/"},"identifier":["1067"],"includedInDataCatalog":{"@type":"DataCatalog","name":"Kaggle","url":"https://www.kaggle.com"},"creator":{"@type":"Person","name":"pavansubhash","url":"https://www.kaggle.com/pavansubhasht","image":"https://storage.googleapis.com/kaggle-avatars/thumbnails/862007-gp.jpg"},"distribution":[{"@type":"DataDownload","requiresSubscription":true,"encodingFormat":"zip","fileFormat":"zip","contentUrl":"https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset/download?datasetVersionNumber=1","contentSize":"51314 bytes"}],"commentCount":34,"dateModified":"2017-03-31T06:55:16.973Z","discussionUrl":"https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset/discussion","alternateName":"Predict attrition of your valuable employees","isAccessibleForFree":true,"thumbnailUrl":"https://storage.googleapis.com/kaggle-datasets-images/1067/1925/5fc43e97e25975d1a14cba2e706255cb/dataset-card.jpg","interactionStatistic":[{"@type":"InteractionCounter","interactionType":"http://schema.org/CommentAction","userInteractionCount":34},{"@type":"InteractionCounter","interactionType":"http://schema.org/DownloadAction","userInteractionCount":180193},{"@type":"InteractionCounter","interactionType":"http://schema.org/ViewAction","userInteractionCount":1445296},{"@type":"InteractionCounter","interactionType":"http://schema.org/LikeAction","userInteractionCount":2472}]}</script>
+        
+
+  
+    
+
+  
+    
+
+
+    <script nonce="0MVZr7QoK0jxIdNtdlh/zw==">window['useKaggleAnalytics'] = true;</script>
+
+  <script id="gapi-target" nonce="0MVZr7QoK0jxIdNtdlh/zw==" src="https://apis.google.com/js/api.js" defer
+    async></script>
+  <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" src="/static/assets/runtime.js?v=e39bd89f6741bf1e27b2"></script>
+  <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" src="/static/assets/vendor.js?v=bfc2101fc0c4c1ee08fb"></script>
+  <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" src="/static/assets/app.js?v=3a9178bd77c71915d796"></script>
+    <script nonce="0MVZr7QoK0jxIdNtdlh/zw==" type="text/javascript">
+      window.kaggleStackdriverConfig = {
+        key: 'AIzaSyA4eNqUdRRskJsCZWVz-qL655Xa5JEMreE',
+        projectId: 'kaggle-161607',
+        service: 'web-fe',
+        version: 'ci',
+        userId: '0'
+      }
+    </script>
+</head>
+<body>
+<main>
+    
+
+
+
+
+
+<div id="site-container"></div>
+
+<div id="site-body" class="hide">
+    
+
+
+<script nonce="0MVZr7QoK0jxIdNtdlh/zw==" type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+    preferredFont: "TeX",
+    availableFonts: ["STIX", "TeX"],
+    linebreaks: {
+    automatic: true
+    },
+    EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+    inlineMath: [["\\(", "\\)"], ["\\\\(", "\\\\)"]],
+    displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+    processEscapes: true,
+    ignoreClass: "tex2jax_ignore|dno"
+    },
+    TeX: {
+    noUndefined: {
+    attributes: {
+    mathcolor: "red",
+    mathbackground: "#FFEEEE",
+    mathsize: "90%"
+    }
+    }
+    },
+    Macros: {
+    href: "{}"
+    },
+    skipStartupTypeset: true,
+    messageStyle: "none",
+    extensions: ["Safe.js"],
+    });
+</script>
+<script type="text/javascript" nonce="0MVZr7QoK0jxIdNtdlh/zw==">
+  window.addEventListener("DOMContentLoaded", () => {
+    const head = document.getElementsByTagName("head")[0];
+    const lib = document.createElement("script");
+    lib.type = "text/javascript";
+    // Always use the production asset in local dev, which is served from GCS. We tried to proxy and / or serve this
+    // in a better way in localhost, but it didn't work out. See b/328073416#comment8 for details.
+    const forceProdHost = window.location.hostname === "localhost";
+    lib.src = `${forceProdHost ? "https://www.kaggle.com" : ""}/static/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML`;
+    head.appendChild(lib);
+  });
+</script>
+
+
+
+
+
+
+</div>
+
+
+
+
+  </main>
+</body>
+
+</html>
