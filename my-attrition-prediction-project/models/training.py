@@ -9,7 +9,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from mage_ai.data_preparation.decorators import data_loader
 
 
-repo_service = get_repo_service()
 
 @data_loader
 def load_data():
