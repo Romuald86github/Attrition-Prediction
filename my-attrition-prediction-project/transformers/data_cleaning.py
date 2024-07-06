@@ -11,12 +11,12 @@ def load_data(url):
     response = requests.get(url)
 
     # Save the raw data to 'data_loaders/raw_data.csv'
-    os.makedirs('data_loaders', exist_ok=True)
-    with open(os.path.join('data_loaders', 'raw_data.csv'), 'wb') as f:
+    file_path = os.path.join('my-attrition-prediction-project', 'data_loaders', 'raw_data.csv')
+    with open(file_path, 'wb') as f:
         f.write(response.content)
 
     # Read the CSV data
-    data = pd.read_csv(os.path.join('data_loaders', 'raw_data.csv'))
+    data = pd.read_csv(file_path)
 
     return data
 
@@ -41,12 +41,12 @@ def clean_data(data):
     data = data[(z_scores <= 3).all(axis=1)]
 
     # (5) Save the cleaned data
-    os.makedirs('transformers', exist_ok=True)
-    data.to_csv(os.path.join('transformers', 'clean_data.csv'))
+    file_path = os.path.join('my-attrition-prediction-project', 'transformers', 'clean_data.csv')
+    data.to_csv(file_path)
 
     return data
 
 if __name__ == "__main__":
     url = "https://raw.githubusercontent.com/Romuald86github/Internship/main/employee_attrition.csv"
     raw_data = load_data(url)
-    clean_data(raw_data)
+    cleaned_data = clean_data(raw_data)
