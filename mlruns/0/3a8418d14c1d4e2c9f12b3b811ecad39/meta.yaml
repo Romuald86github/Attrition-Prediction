@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/Attrition-Prediction/mlruns/0/3a8418d14c1d4e2c9f12b3b811ecad39/artifacts
+end_time: 1720380057516
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 3a8418d14c1d4e2c9f12b3b811ecad39
+run_name: redolent-wasp-316
+run_uuid: 3a8418d14c1d4e2c9f12b3b811ecad39
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1720380054080
+status: 3
+tags: []
+user_id: codespace
