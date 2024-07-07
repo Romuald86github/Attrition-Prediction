@@ -35,3 +35,7 @@ if __name__ == "__main__":
     url = "https://raw.githubusercontent.com/Romuald86github/Internship/main/employee_attrition.csv"
     raw_data = load_data(url)
     cleaned_data = clean_data(raw_data)
+
+
+
+    # install mage_ai 
