@@ -6,15 +6,19 @@ blocks:
   - name: data_cleaning
     file: data_exporters/data_cleaning.py
     function_name: clean_data
+    uuid: 1234abcd-5678-9012-3456-789012abcdef
   - name: feature_selection
     file: features/feature_selection.py
     function_name: select_features
+    uuid: abcd1234-5678-9012-3456-789012abcdef
   - name: preprocessing
     file: features/preprocessing.py
     function_name: preprocess_data
+    uuid: efgh5678-9012-3456-789a-bcdef012345
   - name: training
     file: models/training.py
     function_name: train_and_evaluate_models
+    uuid: 6789abcd-efgh-0123-4567-89abcdef0123
 
 dependencies:
   - data_cleaning
@@ -23,3 +27,7 @@ dependencies:
   - training
 
 tracking_uri: http://mlflow:5000
+
+global_vars:
+  test_mode: False
+  random_seed: 42
