@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import numpy as np
 import requests
-from io import StringIO
 from mage_ai.data_preparation.decorators import data_loader, data_exporter
 
 @data_loader
@@ -22,20 +21,11 @@ def load_data(url):
 
 @data_exporter
 def clean_data(data):
-    """Clean the raw data."""
-    # (1) Convert 'MonthlyIncome' and 'MonthlyRate' columns to float
-    data[['MonthlyIncome', 'MonthlyRate']] = data[['MonthlyIncome', 'MonthlyRate']].astype(float)
+    """Clean the raw data by dropping the 'EmployeeNumber' column."""
+    # Drop the 'EmployeeNumber' column
+    data = data.drop('EmployeeNumber', axis=1)
 
-    # (2) Convert specified columns to object data type
-    columns_to_convert = ['Education', 'EnvironmentSatisfaction', 'JobInvolvement', 'JobLevel', 'JobSatisfaction',
-                         'NumCompaniesWorked', 'PerformanceRating', 'RelationshipSatisfaction', 'StockOptionLevel',
-                         'TrainingTimesLastYear', 'WorkLifeBalance']
-    data[columns_to_convert] = data[columns_to_convert].astype(object)
-
-    # (3) Set 'EmployeeNumber' as the index
-    data.set_index('EmployeeNumber', inplace=True)
-
-    # (4) Save the cleaned data
+    # Save the cleaned data
     file_path = os.path.join('my-attrition-prediction-project', 'transformers', 'clean_data.csv')
     data.to_csv(file_path)
 
