@@ -1,0 +1,8 @@
+mage-ai
+pandas
+numpy
+requests
+scikit-learn
+imbalanced-learn
+scipy
+mlflow
