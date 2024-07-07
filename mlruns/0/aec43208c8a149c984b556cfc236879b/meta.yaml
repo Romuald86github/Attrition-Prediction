@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/Attrition-Prediction/mlruns/0/aec43208c8a149c984b556cfc236879b/artifacts
+end_time: 1720378693919
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: aec43208c8a149c984b556cfc236879b
+run_name: worried-chimp-616
+run_uuid: aec43208c8a149c984b556cfc236879b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1720378693902
+status: 3
+tags: []
+user_id: codespace
