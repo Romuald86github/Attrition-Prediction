@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/Attrition-Prediction/mlruns/0/b2d435f33ece44e8beb6befd77084e8d/artifacts
+end_time: 1720378091763
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b2d435f33ece44e8beb6befd77084e8d
+run_name: adorable-vole-675
+run_uuid: b2d435f33ece44e8beb6befd77084e8d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1720378091709
+status: 3
+tags: []
+user_id: codespace
