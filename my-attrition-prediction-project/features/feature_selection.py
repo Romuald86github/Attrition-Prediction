@@ -7,7 +7,7 @@ def load_data():
     return data
 
 @data_exporter
-def select_features(data, selected_features):
+def select_features(data, selected_features, target_column):
     selected_data = data[selected_features]
     selected_data.to_csv("my-attrition-prediction-project/features/selected_data.csv", index=False)
     return selected_data
