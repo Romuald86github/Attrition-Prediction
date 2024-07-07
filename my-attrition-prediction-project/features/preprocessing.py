@@ -10,7 +10,7 @@ import mlflow.sklearn
 
 @data_loader
 def load_data():
-    data = pd.read_csv("my-attrition-prediction-project/transformers/selected_data.csv")
+    data = pd.read_csv("my-attrition-prediction-project/features/selected_data.csv")
     target_column = "Attrition"
     return data, target_column
 
