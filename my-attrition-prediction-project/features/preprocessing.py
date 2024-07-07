@@ -5,10 +5,12 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from imblearn.over_sampling import RandomOverSampler
 from scipy.stats import yeojohnson, skew
 from mage_ai.data_preparation.decorators import data_loader, data_exporter
+import mlflow
+import mlflow.sklearn
 
 @data_loader
 def load_data():
-    data = pd.read_csv("my-attrition-prediction-project/transformers/clean_data.csv")
+    data = pd.read_csv("my-attrition-prediction-project/transformers/selected_data.csv")
     target_column = "Attrition"
     return data, target_column
 
@@ -61,5 +63,27 @@ def preprocess_data(data, target_column):
     return X_train, X_val, X_test, y_train, y_val, y_test
 
 if __name__ == "__main__":
+    # Start an MLflow run
+    mlflow.start_run()
+
     data, target_column = load_data()
-    preprocess_data(data, target_column)
+    X_train, X_val, X_test, y_train, y_val, y_test = preprocess_data(data, target_column)
+
+    # Log the preprocessing steps as an MLflow artifact
+    preprocessing_steps = [
+        ("Remove skewness", yeojohnson),
+        ("Label encoding", LabelEncoder()),
+        ("One-hot encoding", None),
+        ("Random oversampling", RandomOverSampler(random_state=42)),
+        ("Train-test split", None),
+        ("Scaling", StandardScaler())
+    ]
+
+    mlflow.sklearn.log_model(
+        preprocessing_steps,
+        artifact_path="preprocessing_pipeline",
+        registered_model_name="attrition-prediction-preprocessing"
+    )
+
+    # End the MLflow run
+    mlflow.end_run()
