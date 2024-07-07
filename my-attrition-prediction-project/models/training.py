@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from mage_ai.data_preparation.decorators import data_loader
 
 # Set the MLflow tracking URI
-mlflow.set_tracking_uri("http://mlflow:5000")
+mlflow.set_tracking_uri("http://localhost:5000")
 
 
 # Set the experiment name
