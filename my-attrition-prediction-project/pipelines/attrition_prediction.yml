@@ -1,25 +1,53 @@
+pipeline:
+  name: attrition-prediction
+  python_file: ../attrition-prediction.py
+  entry_point: main
 
-name: attrition_prediction
+data_loaders:
+  - name: load_and_clean_data
+    python_file: transformers/data_cleaning.py
+    import_path: load_and_clean_data
 
-blocks:
-  - name: data_cleaning
-    file: data_exporters/data_cleaning.py
-    function_name: clean_data
-  - name: feature_selection
-    file: features/feature_selection.py
-    function_name: select_features
-  - name: preprocessing
-    file: features/preprocessing.py
-    function_name: preprocess_data
-  - name: training
-    file: models/training.py
-    function_name: train_and_evaluate_models
+transformers:
+  - name: select_features
+    python_file: features/feature_selection.py
+    import_path: select_features
+    inputs:
+      - data: load_and_clean_data
+    arguments:
+      selected_features:
+        - DailyRate
+        - DistanceFromHome
+        - EnvironmentSatisfaction
+        - JobInvolvement
+        - JobSatisfaction
+        - MaritalStatus
+        - NumCompaniesWorked
+        - OverTime
+        - StockOptionLevel
+        - TotalWorkingYears
+        - TrainingTimesLastYear
+        - WorkLifeBalance
+        - YearsAtCompany
 
-dependencies:
-  - data_cleaning
-  - feature_selection
-  - preprocessing
-  - training
+  - name: preprocess_data
+    python_file: features/preprocessing.py
+    import_path: preprocess_data
+    inputs:
+      - data: load_and_clean_data
 
-tracking_uri: http://mlflow:5000
+models:
+  - name: train_and_evaluate_models
+    python_file: models/training.py
+    import_path: train_and_evaluate_models
+    inputs:
+      - X_train: preprocess_data.X_train
+      - X_val: preprocess_data.X_val
+      - X_test: preprocess_data.X_test
+      - y_train: preprocess_data.y_train
+      - y_val: preprocess_data.y_val
+      - y_test: preprocess_data.y_test
 
+metadata:
+  tracking_uri: http://mlflow:5000
+  experiment_name: attrition-prediction
