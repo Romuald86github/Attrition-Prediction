@@ -14,7 +14,7 @@ def select_features(data, selected_features, target_column):
 
 if __name__ == "__main__":
     data = load_data()
-    target_column = "Attrition"
+    target_column = ["Attrition"]
     selected_features = ['DailyRate', 'DistanceFromHome', 'EnvironmentSatisfaction',
                          'JobInvolvement', 'JobSatisfaction', 'MaritalStatus', 'NumCompaniesWorked',
                          'OverTime', 'StockOptionLevel', 'TotalWorkingYears', 'TrainingTimesLastYear',
