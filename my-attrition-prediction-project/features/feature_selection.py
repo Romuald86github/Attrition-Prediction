@@ -19,4 +19,4 @@ if __name__ == "__main__":
                          'JobInvolvement', 'JobSatisfaction', 'MaritalStatus', 'NumCompaniesWorked',
                          'OverTime', 'StockOptionLevel', 'TotalWorkingYears', 'TrainingTimesLastYear',
                          'WorkLifeBalance', 'YearsAtCompany']
-    select_features(data, selected_features)
+    select_features(data, selected_features, target_column)
