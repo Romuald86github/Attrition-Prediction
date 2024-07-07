@@ -16,7 +16,7 @@ def load_data():
 
 @data_exporter
 def preprocess_data(data, target_column):
-    X = data.drop(columns=[target_column])
+    X = data.drop(columns=[target_column], axis =1)
     y = data[target_column]
 
     # Remove skewness from columns with skewness > 0.5
