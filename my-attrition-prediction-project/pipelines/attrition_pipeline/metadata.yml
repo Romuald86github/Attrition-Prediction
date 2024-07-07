@@ -33,7 +33,7 @@ blocks:
   upstream_blocks:
   - preprocess_data
   uuid: train_model
-name: attrition_prediction_pipeline
+name: attrition_prediction_pipeline_definition
 type: python
-uuid: attrition_prediction_pipeline
+uuid: attrition_prediction_pipeline_definition
 widgets: []

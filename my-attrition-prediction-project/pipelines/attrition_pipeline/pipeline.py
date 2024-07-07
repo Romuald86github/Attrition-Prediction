@@ -1,6 +1,10 @@
-from mage_ai.data_preparation.decorators import data_loader, data_exporter, transformer
+from mage_ai.data_preparation.decorators import data_loader, data_exporter, transformer, pipeline
 from mage_ai.pipelines.base import Pipeline
 from mage_ai.shared.constants import DataType
+
+@pipeline
+def attrition_prediction_pipeline_definition():
+    return AttritionPredictionPipeline()
 
 class AttritionPredictionPipeline(Pipeline):
     @data_loader
