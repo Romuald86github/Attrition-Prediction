@@ -3,7 +3,7 @@ blocks:
   color: null
   configuration: {}
   downstream_blocks:
-  - select_features
+  - clean_data_transformer
   executor_config: null
   executor_type: local_python
   has_callback: null
@@ -19,6 +19,23 @@ blocks:
   color: null
   configuration: {}
   downstream_blocks:
+  - select_features
+  executor_config: null
+  executor_type: local_python
+  has_callback: null
+  language: python
+  name: clean_data_transformer
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - load_raw_data
+  uuid: clean_data_transformer
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
   - preprocess_data
   executor_config: null
   executor_type: local_python
@@ -30,7 +47,7 @@ blocks:
   timeout: null
   type: transformer
   upstream_blocks:
-  - load_raw_data
+  - clean_data_transformer
   uuid: select_features
 - all_upstream_blocks_executed: false
   color: null
