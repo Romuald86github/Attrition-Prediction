@@ -11,6 +11,16 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
 
+# Set the MLflow tracking URI
+mlflow.set_tracking_uri("http://localhost:5000")  # Update with the correct URI if running on a remote machine
+
+class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
+    def __init__(self, pipeline):
+        self.pipeline = pipeline
+
+    def predict(self, context, model_input):
+        return self.pipeline.transform(model_input)
+
 def preprocess_data(data, target_column='Attrition'):
     X = data.drop(columns=[target_column])
     y = data[target_column]
@@ -77,6 +87,9 @@ def preprocess_data(data, target_column='Attrition'):
         ('scaler', scaler)
     ])
 
+    # Create the custom PythonModel
+    custom_model = PreprocessingPipeline(preprocessing_pipeline)
+
     # Infer the signature of the pipeline
     signature = infer_signature(X_train)
 
@@ -84,7 +97,7 @@ def preprocess_data(data, target_column='Attrition'):
     with mlflow.start_run() as run:
         mlflow.pyfunc.log_model(
             artifact_path="preprocessing_pipeline",
-            python_model=preprocessing_pipeline,
+            python_model=custom_model,
             signature=signature,
             registered_model_name="AttritionPreprocessingPipeline"
         )
