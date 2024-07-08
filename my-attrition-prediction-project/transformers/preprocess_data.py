@@ -12,7 +12,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
 
 # Set the MLflow tracking URI
-mlflow.set_tracking_uri("http://localhost:5000")  # Update with the correct URI if running on a remote machine
+mlflow.set_tracking_uri("http://localhost:5001")  # Update with the correct URI if running on a remote machine
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
