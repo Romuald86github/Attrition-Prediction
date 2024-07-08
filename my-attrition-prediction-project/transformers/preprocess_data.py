@@ -4,7 +4,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 from imblearn.over_sampling import RandomOverSampler
 from scipy.stats import yeojohnson, skew
-from mage_ai.data_preparation.decorators import transformer
 import mlflow
 import mlflow.pyfunc
 from mlflow.models.signature import infer_signature
@@ -12,10 +11,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
 
-@transformer
-def preprocess_data(data, *args, **kwargs):
-    target_column = kwargs.get('target_column', 'Attrition')
-    
+def preprocess_data(data, target_column='Attrition'):
     X = data.drop(columns=[target_column])
     y = data[target_column]
 
@@ -38,7 +34,7 @@ def preprocess_data(data, *args, **kwargs):
 
     # Encode or get_dummies for categorical columns
     categorical_cols = X.select_dtypes(include='object').columns
-    one_hot_encoder = OneHotEncoder(drop='first', sparse=False)
+    one_hot_encoder = OneHotEncoder(drop='first')
     column_transformer = ColumnTransformer(
         transformers=[
             ('cat', one_hot_encoder, categorical_cols)
@@ -46,6 +42,7 @@ def preprocess_data(data, *args, **kwargs):
         remainder='passthrough'
     )
     X = column_transformer.fit_transform(X)
+    X = pd.DataFrame(X, columns=column_transformer.get_feature_names_out())  # Ensure output is a DataFrame
 
     # Balance target classes
     ros = RandomOverSampler(random_state=42)
@@ -73,9 +70,6 @@ def preprocess_data(data, *args, **kwargs):
     preprocessed_data = (X_train, X_val, X_test, y_train, y_val, y_test)
     pd.to_pickle(preprocessed_data, 'my-attrition-prediction-project/features/preprocessed_data.pkl')
     
-    # Set the MLflow tracking URI
-    mlflow.set_tracking_uri("http://localhost:5000")
-
     # Log preprocessing steps to MLflow
     preprocessing_pipeline = Pipeline(steps=[
         ('skewness_transformer', skewness_transformer),
