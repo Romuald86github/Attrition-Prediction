@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/Attrition-Prediction/mlruns/0/fe4c282a772f4e0888d80977054b0d9f/artifacts
+end_time: 1720442482860
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: fe4c282a772f4e0888d80977054b0d9f
+run_name: mercurial-donkey-683
+run_uuid: fe4c282a772f4e0888d80977054b0d9f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1720442479723
+status: 3
+tags: []
+user_id: codespace

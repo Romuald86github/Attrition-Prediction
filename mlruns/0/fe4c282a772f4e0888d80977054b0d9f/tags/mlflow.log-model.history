@@ -1,0 +1,1 @@
+[{"run_id": "fe4c282a772f4e0888d80977054b0d9f", "artifact_path": "preprocessing_pipeline", "utc_time_created": "2024-07-08 12:41:19.780938", "flavors": {"sklearn": {"pickled_model": "model.pkl", "sklearn_version": "1.5.1", "serialization_format": "cloudpickle", "code": null}}, "model_uuid": "f7045722541d447da9492f25c2a427b6", "mlflow_version": "2.14.2", "model_size_bytes": 484}]

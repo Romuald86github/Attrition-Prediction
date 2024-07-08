@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1720442482851
+current_stage: None
+description: null
+last_updated_timestamp: 1720442482851
+name: attrition-prediction-preprocessing
+run_id: fe4c282a772f4e0888d80977054b0d9f
+run_link: null
+source: file:///workspaces/Attrition-Prediction/mlruns/0/fe4c282a772f4e0888d80977054b0d9f/artifacts/preprocessing_pipeline
+status: READY
+status_message: null
+storage_location: file:///workspaces/Attrition-Prediction/mlruns/0/fe4c282a772f4e0888d80977054b0d9f/artifacts/preprocessing_pipeline
+user_id: null
+version: 2
