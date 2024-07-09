@@ -21,6 +21,7 @@ class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def predict(self, context, model_input):
         return self.pipeline.transform(model_input)
 
+@transformer
 def preprocess_data(data, target_column='Attrition'):
     X = data.drop(columns=[target_column])
     y = data[target_column]

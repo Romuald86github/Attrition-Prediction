@@ -17,3 +17,5 @@ def load_data(*args, **kwargs):
     # Read the CSV data
     data = pd.read_csv(file_path)
     return data
+
+    # test 
