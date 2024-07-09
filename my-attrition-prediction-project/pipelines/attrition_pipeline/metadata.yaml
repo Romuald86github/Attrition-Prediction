@@ -1,43 +1,83 @@
 blocks:
 - all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
   downstream_blocks:
   - clean_data
+  - load_data_bar_chart_e5
+  executor_config: null
+  executor_type: local_python
+  has_callback: null
+  language: python
   name: load_data
+  retry_config: null
   status: not_executed
+  timeout: null
   type: data_loader
   upstream_blocks: []
   uuid: load_data
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
   downstream_blocks:
   - select_features
+  executor_config: null
+  executor_type: local_python
+  has_callback: null
+  language: python
   name: clean_data
+  retry_config: null
   status: not_execute
+  timeout: null
   type: transformer
   upstream_blocks:
   - load_data
   uuid: clean_data
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
   downstream_blocks:
   - preprocess_data
+  executor_config: null
+  executor_type: local_python
+  has_callback: null
+  language: python
   name: select_features
+  retry_config: null
   status: not_executed
+  timeout: null
   type: transformer
   upstream_blocks:
   - clean_data
   uuid: select_features
-- all_upstream_blocks_executed: true
-  downstream_blocks: 
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
   - export_data
+  executor_config: null
+  executor_type: local_python
+  has_callback: null
+  language: python
   name: preprocess_data
+  retry_config: null
   status: not_executed
+  timeout: null
   type: transformer
   upstream_blocks:
   - select_features
   uuid: preprocess_data
-- all_upstream_blocks_executed: true
-  downstream_blocks: 
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
   - train_model
+  executor_config: null
+  executor_type: local_python
+  has_callback: null
+  language: python
   name: export_data
+  retry_config: null
   status: not_executed
   timeout: null
   type: data_exporter
@@ -45,6 +85,12 @@ blocks:
   - preprocess_data
   uuid: export_data
 - all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: null
   language: python
   name: train_model
   retry_config: null
@@ -53,7 +99,47 @@ blocks:
   type: transformer
   upstream_blocks: []
   uuid: train_model
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: null
+data_integration: null
+description: null
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
 name: attrition_prediction_pipeline_definition
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags: []
 type: python
 uuid: attrition_pipeline
-widgets: []
+variables_dir: /home/codespace/.mage_data/my-attrition-prediction-project
+widgets:
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    chart_style: vertical
+    chart_type: bar chart
+    x: x
+    y: y
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: load_data_bar chart_e5
+  retry_config: null
+  status: updated
+  timeout: null
+  type: chart
+  upstream_blocks:
+  - load_data
+  uuid: load_data_bar_chart_e5
