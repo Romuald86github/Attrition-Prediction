@@ -1,10 +1,11 @@
 import os
 import pandas as pd
 import requests
-from mage_ai.data_preparation.decorators import data_loader
+from pandas import DataFrame
+from mage_ai.data_preparation.decorators import data_loader, test
 
 @data_loader
-def load_data(*args, **kwargs):
+def load_data(**kwargs) -> DataFrame:
     url = kwargs.get('url', 'https://raw.githubusercontent.com/Romuald86github/Internship/main/employee_attrition.csv')
     response = requests.get(url)
 
@@ -18,4 +19,8 @@ def load_data(*args, **kwargs):
     data = pd.read_csv(file_path)
     return data
 
-    # test 
+@test
+def test_output(df) -> None:
+    assert df is not None, 'The output is undefined'
+    assert isinstance(df, pd.DataFrame), 'The output is not a Pandas DataFrame'
+    assert len(df) > 0, 'The DataFrame is empty'
