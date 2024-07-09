@@ -56,8 +56,7 @@ blocks:
   color: null
   configuration:
     function: preprocess_data
-  downstream_blocks:
-  - export_data
+  downstream_blocks: []
   executor_config: null
   executor_type: local_python
   has_callback: null
@@ -87,7 +86,7 @@ blocks:
   upstream_blocks:
   - preprocess_data
   uuid: export_processed_data
-- all_upstream_blocks_executed: false
+- all_upstream_blocks_executed: true
   color: null
   configuration:
     function: train_and_evaluate_models
@@ -101,8 +100,7 @@ blocks:
   status: not_executed
   timeout: null
   type: transformer
-  upstream_blocks:
-  - export_data
+  upstream_blocks: []
   uuid: train_model
 cache_block_output_in_memory: false
 callbacks: []
