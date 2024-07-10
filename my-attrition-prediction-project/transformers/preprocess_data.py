@@ -15,6 +15,10 @@ if 'transformer' not in globals():
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
+
+# Set the MLflow tracking URI
+mlflow.set_tracking_uri("http://localhost:5001")
+
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
         self.pipeline = pipeline
