@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/Attrition-Prediction/mlruns/0/390e02ab1c174b3aa3fc115478dc0e31/artifacts
+end_time: 1720607948858
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 390e02ab1c174b3aa3fc115478dc0e31
+run_name: bouncy-bee-468
+run_uuid: 390e02ab1c174b3aa3fc115478dc0e31
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1720607945556
+status: 4
+tags: []
+user_id: romualdchristialtcheutchoua
