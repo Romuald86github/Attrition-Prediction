@@ -2,7 +2,6 @@ import pandas as pd
 from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from imblearn.over_sampling import RandomOverSampler
 from scipy.stats import yeojohnson, skew
 import mlflow
 import mlflow.pyfunc
@@ -56,10 +55,6 @@ def preprocess_data(data: DataFrame, target_column: str = 'Attrition') -> tuple[
     )
     X = column_transformer.fit_transform(X)
     X = pd.DataFrame(X, columns=column_transformer.get_feature_names_out())
-
-    # Balance target classes
-    ros = RandomOverSampler(random_state=42)
-    X, y = ros.fit_resample(X, y)
 
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
