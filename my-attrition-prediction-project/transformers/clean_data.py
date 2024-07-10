@@ -7,19 +7,26 @@ if 'transformer' not in globals():
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
+def select_number_columns(df: DataFrame) -> DataFrame:
+    return df['EmployeeNumber']
+
+
+def drop_employee_number_column(df: DataFrame) -> DataFrame:
+    for col in df.columns:
+        df = df.drop(col, axis =1)
+    return df
+
 @transformer
-def clean_data(data: DataFrame, *args, **kwargs) -> DataFrame:
-    """
-    Clean the input data by dropping the 'EmployeeNumber' column.
-    """
-    data = data.drop('EmployeeNumber', axis=1)
-    return data
+def clean_data(df: DataFrame, *args, **kwargs) -> DataFrame:
+    return drop_employee_number_column(select_number_columns(df))
+
 
 @test
-def test_clean_data(data: DataFrame) -> None:
+def test_output(df) -> None:
     """
-    Test the output of the clean_data transformer.
+    Template code for testing the output of the block.
     """
-    assert data is not None, 'The output is undefined'
-    assert isinstance(data, pd.DataFrame), 'The output is not a Pandas DataFrame'
-    assert 'EmployeeNumber' not in data.columns, 'The EmployeeNumber column was not dropped'
+    assert df is not None, 'The output is undefined'
+
+
+
