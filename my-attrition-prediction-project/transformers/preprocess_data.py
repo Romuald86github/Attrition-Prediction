@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 from pandas import DataFrame
 from sklearn.model_selection import train_test_split
@@ -16,9 +15,6 @@ if 'transformer' not in globals():
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
-# Set the MLflow tracking URI
-mlflow.set_tracking_uri("http://localhost:5001")
-
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
         self.pipeline = pipeline
@@ -27,9 +23,9 @@ class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
         return self.pipeline.transform(model_input)
 
 @transformer
-def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
-    X = df.drop(columns=['Attrition'])
-    y = df['Attrition']
+def preprocess_data(data: DataFrame, target_column: str = 'Attrition') -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
+    X = data.drop(columns=[target_column])
+    y = data[target_column]
 
     # Remove skewness from columns with skewness > 0.5
     numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
