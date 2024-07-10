@@ -23,9 +23,9 @@ class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
         return self.pipeline.transform(model_input)
 
 @transformer
-def preprocess_data(data: DataFrame, target_column: str = 'Attrition') -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
-    X = data.drop(columns=[target_column])
-    y = data[target_column]
+def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
+    X = df.drop(columns=['Attrition'])
+    y = df['Attrition']
 
     # Remove skewness from columns with skewness > 0.5
     numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
