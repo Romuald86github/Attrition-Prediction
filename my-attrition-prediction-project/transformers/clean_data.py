@@ -12,9 +12,8 @@ def select_number_columns(df: DataFrame) -> DataFrame:
 
 
 def drop_employee_number_column(df: DataFrame) -> DataFrame:
-    for col in df.columns:
-        df = df.drop(col, axis =1)
-    return df
+    return df.drop('EmployeeNumber', axis=1)
+
 
 @transformer
 def clean_data(df: DataFrame, *args, **kwargs) -> DataFrame:
