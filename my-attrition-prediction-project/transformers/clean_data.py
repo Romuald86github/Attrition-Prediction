@@ -26,6 +26,8 @@ def test_output(df) -> None:
     Template code for testing the output of the block.
     """
     assert df is not None, 'The output is undefined'
+    assert isinstance(df, DataFrame), 'The output is not a Pandas DataFrame'
+    assert 'EmployeeNumber' not in df.columns, 'The EmployeeNumber column was not dropped'
 
 
 
