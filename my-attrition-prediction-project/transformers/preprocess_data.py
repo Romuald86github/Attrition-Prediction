@@ -1,5 +1,5 @@
-import os
 import pandas as pd
+from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 from imblearn.over_sampling import RandomOverSampler
@@ -11,8 +11,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
 
-# Set the MLflow tracking URI
-mlflow.set_tracking_uri("http://localhost:5001")  # Update with the correct URI if running on a remote machine
+if 'transformer' not in globals():
+    from mage_ai.data_preparation.decorators import transformer
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
@@ -22,15 +24,15 @@ class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
         return self.pipeline.transform(model_input)
 
 @transformer
-def preprocess_data(data, target_column='Attrition'):
+def preprocess_data(data: DataFrame, target_column: str = 'Attrition') -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
     X = data.drop(columns=[target_column])
     y = data[target_column]
 
     # Remove skewness from columns with skewness > 0.5
     numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
     skewed_cols = [col for col in numerical_cols if skew(X[col]) > 0.5]
-    
-    def remove_skewness(X):
+
+    def remove_skewness(X: DataFrame) -> DataFrame:
         X_transformed = X.copy()
         for col in skewed_cols:
             X_transformed[col], _ = yeojohnson(X_transformed[col])
@@ -53,7 +55,7 @@ def preprocess_data(data, target_column='Attrition'):
         remainder='passthrough'
     )
     X = column_transformer.fit_transform(X)
-    X = pd.DataFrame(X, columns=column_transformer.get_feature_names_out())  # Ensure output is a DataFrame
+    X = pd.DataFrame(X, columns=column_transformer.get_feature_names_out())
 
     # Balance target classes
     ros = RandomOverSampler(random_state=42)
@@ -69,18 +71,8 @@ def preprocess_data(data, target_column='Attrition'):
     X_val = scaler.transform(X_val)
     X_test = scaler.transform(X_test)
 
-    # Save the preprocessed data
-    os.makedirs('my-attrition-prediction-project/features', exist_ok=True)
-    pd.to_pickle(X_train, 'my-attrition-prediction-project/features/X_train.pkl')
-    pd.to_pickle(X_val, 'my-attrition-prediction-project/features/X_val.pkl')
-    pd.to_pickle(X_test, 'my-attrition-prediction-project/features/X_test.pkl')
-    pd.to_pickle(y_train, 'my-attrition-prediction-project/features/y_train.pkl')
-    pd.to_pickle(y_val, 'my-attrition-prediction-project/features/y_val.pkl')
-    pd.to_pickle(y_test, 'my-attrition-prediction-project/features/y_test.pkl')
-
     preprocessed_data = (X_train, X_val, X_test, y_train, y_val, y_test)
-    pd.to_pickle(preprocessed_data, 'my-attrition-prediction-project/features/preprocessed_data.pkl')
-    
+
     # Log preprocessing steps to MLflow
     preprocessing_pipeline = Pipeline(steps=[
         ('skewness_transformer', skewness_transformer),
@@ -103,9 +95,20 @@ def preprocess_data(data, target_column='Attrition'):
             registered_model_name="AttritionPreprocessingPipeline"
         )
 
-    return X_train, X_val, X_test, y_train, y_val, y_test
+    return preprocessed_data
 
-if __name__ == "__main__":
-    # Load the data from the CSV file
-    data = pd.read_csv("my-attrition-prediction-project/features/selected_data.csv")
+@test
+def test_preprocess_data(data: DataFrame) -> None:
+    """
+    Template code for testing the output of the block.
+    """
     X_train, X_val, X_test, y_train, y_val, y_test = preprocess_data(data)
+    assert X_train is not None, 'The X_train output is undefined'
+    assert X_val is not None, 'The X_val output is undefined'
+    assert X_test is not None, 'The X_test output is undefined'
+    assert y_train is not None, 'The y_train output is undefined'
+    assert y_val is not None, 'The y_val output is undefined'
+    assert y_test is not None, 'The y_test output is undefined'
+    assert isinstance(X_train, DataFrame), 'The X_train output is not a Pandas DataFrame'
+    assert isinstance(X_val, DataFrame), 'The X_val output is not a Pandas DataFrame'
+    assert isinstance(X_test, DataFrame), 'The X_test output is not a Pandas DataFrame'

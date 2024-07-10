@@ -43,7 +43,7 @@ blocks:
   language: python
   name: select_features
   retry_config: null
-  status: failed
+  status: executed
   timeout: null
   type: transformer
   upstream_blocks:
