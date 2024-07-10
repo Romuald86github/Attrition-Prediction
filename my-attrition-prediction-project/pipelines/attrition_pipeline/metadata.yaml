@@ -43,7 +43,7 @@ blocks:
   language: python
   name: select_features
   retry_config: null
-  status: not_executed
+  status: failed
   timeout: null
   type: transformer
   upstream_blocks:
@@ -121,5 +121,5 @@ spark_config: {}
 tags: []
 type: python
 uuid: attrition_pipeline
-variables_dir: /home/codespace/.mage_data/my-attrition-prediction-project
+variables_dir: /Users/romualdchristialtcheutchoua/.mage_data/my-attrition-prediction-project
 widgets: []
