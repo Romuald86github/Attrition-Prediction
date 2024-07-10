@@ -2,7 +2,6 @@ import pandas as pd
 from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from imblearn.over_sampling import RandomOverSampler
 from scipy.stats import yeojohnson, skew
 import mlflow
 import mlflow.pyfunc
@@ -24,9 +23,9 @@ class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
         return self.pipeline.transform(model_input)
 
 @transformer
-def preprocess_data(data: DataFrame, target_column: str = 'Attrition') -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
-    X = data.drop(columns=[target_column])
-    y = data[target_column]
+def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
+    X = df.drop(columns=['Attrition'])
+    y = df['Attrition']
 
     # Remove skewness from columns with skewness > 0.5
     numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
@@ -56,10 +55,6 @@ def preprocess_data(data: DataFrame, target_column: str = 'Attrition') -> tuple[
     )
     X = column_transformer.fit_transform(X)
     X = pd.DataFrame(X, columns=column_transformer.get_feature_names_out())
-
-    # Balance target classes
-    ros = RandomOverSampler(random_state=42)
-    X, y = ros.fit_resample(X, y)
 
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
@@ -112,4 +107,3 @@ def test_preprocess_data(data: DataFrame) -> None:
     assert isinstance(X_train, DataFrame), 'The X_train output is not a Pandas DataFrame'
     assert isinstance(X_val, DataFrame), 'The X_val output is not a Pandas DataFrame'
     assert isinstance(X_test, DataFrame), 'The X_test output is not a Pandas DataFrame'
-    
