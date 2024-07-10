@@ -10,10 +10,10 @@ def select_number_columns(df: DataFrame) -> DataFrame:
     return df
 
 def features(df: DataFrame) -> DataFrame:
-    return df.loc[:, [['DailyRate', 'DistanceFromHome', 'EnvironmentSatisfaction',
-                     'JobInvolvement', 'JobSatisfaction', 'MaritalStatus', 'NumCompaniesWorked',
-                     'OverTime', 'StockOptionLevel', 'TotalWorkingYears', 'TrainingTimesLastYear',
-                     'WorkLifeBalance', 'YearsAtCompany', 'Attrition']]]
+    return df[['DailyRate', 'DistanceFromHome', 'EnvironmentSatisfaction',
+               'JobInvolvement', 'JobSatisfaction', 'MaritalStatus', 'NumCompaniesWorked',
+               'OverTime', 'StockOptionLevel', 'TotalWorkingYears', 'TrainingTimesLastYear',
+               'WorkLifeBalance', 'YearsAtCompany', 'Attrition']]
 
 @transformer
 def select_features(df: DataFrame, *args, **kwargs) -> DataFrame:
