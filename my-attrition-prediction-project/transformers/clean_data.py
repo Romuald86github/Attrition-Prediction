@@ -8,7 +8,7 @@ if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
 def select_number_columns(df: DataFrame) -> DataFrame:
-    return df['EmployeeNumber']
+    return df[['EmployeeNumber']]
 
 
 def drop_employee_number_column(df: DataFrame) -> DataFrame:
