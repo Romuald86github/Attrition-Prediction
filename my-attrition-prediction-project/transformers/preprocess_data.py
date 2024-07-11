@@ -1,5 +1,3 @@
-# preprocess_data.py
-
 import os
 import pandas as pd
 from pandas import DataFrame
@@ -24,7 +22,7 @@ aws_region = os.getenv('AWS_DEFAULT_REGION')
 
 # Set the S3 bucket and path
 bucket_name = "attritionproject"
-artifact_path = "attrition/artifacts"
+artifact_path = "attrition/mlflow/artifacts"
 artifact_uri = f"s3://{bucket_name}/{artifact_path}"
 
 # Initialize boto3 client
@@ -35,6 +33,7 @@ s3_client = boto3.client(
     aws_secret_access_key=aws_secret_access_key
 )
 
+
 class PreprocessingPipeline:
     def __init__(self, pipeline):
         self.pipeline = pipeline
@@ -42,20 +41,18 @@ class PreprocessingPipeline:
     def transform(self, model_input):
         return self.pipeline.transform(model_input)
 
+def remove_skewness(X: DataFrame) -> DataFrame:
+    X_transformed = X.copy()
+    numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
+    skewed_cols = [col for col in numerical_cols if skew(X[col]) > 0.5]
+    for col in skewed_cols:
+        X_transformed[col], _ = yeojohnson(X_transformed[col])
+    return X_transformed
+
 @transformer
 def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
     X = df.drop(columns=['Attrition'])
     y = df['Attrition']
-
-    # Remove skewness from columns with skewness > 0.5
-    numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
-    skewed_cols = [col for col in numerical_cols if skew(X[col]) > 0.5]
-
-    def remove_skewness(X: DataFrame) -> DataFrame:
-        X_transformed = X.copy()
-        for col in skewed_cols:
-            X_transformed[col], _ = yeojohnson(X_transformed[col])
-        return X_transformed
 
     skewness_transformer = FunctionTransformer(remove_skewness, validate=False)
     X = skewness_transformer.transform(X)
