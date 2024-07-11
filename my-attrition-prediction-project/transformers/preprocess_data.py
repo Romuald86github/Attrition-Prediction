@@ -9,6 +9,7 @@ from mlflow.models.signature import infer_signature
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
+import os
 
 if 'transformer' not in globals():
     from mage_ai.data_preparation.decorators import transformer
@@ -22,7 +23,7 @@ mlflow.set_tracking_uri("http://localhost:5001")
 
 bucket_name = "attritionproject"
 artifact_path = "attrition/mlflow/artifacts"
-artifact_uri = f"s3://{bucket_name}/{artifact_path}"
+artifact_uri = os.path.join("s3://", bucket_name, artifact_path)
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
