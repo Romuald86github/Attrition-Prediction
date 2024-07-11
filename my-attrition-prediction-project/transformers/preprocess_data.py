@@ -15,12 +15,13 @@ if 'transformer' not in globals():
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
-
 # Set the MLflow tracking URI
 bucket_name = "attritionproject"
 tracking_path = "attrition/mlflow/tracking"
 mlflow.set_tracking_uri(f"s3://{bucket_name}/{tracking_path}")
 
+# Set the artifact URI to S3
+artifact_uri = f"s3://{bucket_name}/attrition/mlflow/artifacts"
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
@@ -88,13 +89,13 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
     # Infer the signature of the pipeline
     signature = infer_signature(X_train)
 
-    # Log the pipeline model to MLflow
+    # Log the model to S3 artifact storage
     with mlflow.start_run() as run:
         mlflow.pyfunc.log_model(
             artifact_path="preprocessing_pipeline",
             python_model=custom_model,
             signature=signature,
-            registered_model_name="AttritionPreprocessingPipeline"
+            artifact_path=artifact_uri
         )
 
     return preprocessed_data
