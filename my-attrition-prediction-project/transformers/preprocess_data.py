@@ -21,8 +21,8 @@ mlflow.set_tracking_uri("http://localhost:5001")
 # Set the artifact URI to S3
 
 bucket_name = "attritionproject"
-
-artifact_uri = f"s3://{bucket_name}/attrition/mlflow/artifacts"
+artifact_path = "attrition/mlflow/artifacts"
+artifact_uri = f"s3://{bucket_name}/{artifact_path}"
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
