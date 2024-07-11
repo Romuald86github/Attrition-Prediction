@@ -17,7 +17,10 @@ if 'test' not in globals():
 
 
 # Set the MLflow tracking URI
-mlflow.set_tracking_uri("http://localhost:5001")
+bucket_name = "attritionproject"
+tracking_path = "attrition/mlflow/tracking"
+mlflow.set_tracking_uri(f"s3://{bucket_name}/{tracking_path}")
+
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
