@@ -42,23 +42,20 @@ class PreprocessingPipeline:
     def transform(self, model_input):
         return self.pipeline.transform(model_input)
 
+def remove_skewness(X: DataFrame) -> DataFrame:
+    skewed_cols = [col for col in X.select_dtypes(include=['float64', 'int64']).columns if skew(X[col]) > 0.5]
+    X_transformed = X.copy()
+    for col in skewed_cols:
+        X_transformed[col], _ = yeojohnson(X_transformed[col])
+    return X_transformed
+
 @transformer
 def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
     X = df.drop(columns=['Attrition'])
     y = df['Attrition']
 
     # Remove skewness from columns with skewness > 0.5
-    numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
-    skewed_cols = [col for col in numerical_cols if skew(X[col]) > 0.5]
-
-    def remove_skewness(X: DataFrame) -> DataFrame:
-        X_transformed = X.copy()
-        for col in skewed_cols:
-            X_transformed[col], _ = yeojohnson(X_transformed[col])
-        return X_transformed
-
-    skewness_transformer = FunctionTransformer(remove_skewness, validate=False)
-    X = skewness_transformer.transform(X)
+    X = remove_skewness(X)
 
     # Encode target
     le = LabelEncoder()
@@ -90,7 +87,7 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
 
     # Create preprocessing pipeline
     preprocessing_pipeline = Pipeline(steps=[
-        ('skewness_transformer', skewness_transformer),
+        ('skewness_transformer', FunctionTransformer(remove_skewness, validate=False)),
         ('column_transformer', column_transformer),
         ('scaler', scaler)
     ])
