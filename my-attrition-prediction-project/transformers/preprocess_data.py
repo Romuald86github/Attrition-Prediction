@@ -10,6 +10,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
 import os
+from mlflow.store.artifact.s3_artifact_repo import S3ArtifactRepository
+
 
 if 'transformer' not in globals():
     from mage_ai.data_preparation.decorators import transformer
@@ -23,7 +25,8 @@ mlflow.set_tracking_uri("http://localhost:5001")
 
 bucket_name = "attritionproject"
 artifact_path = "attrition/mlflow/artifacts"
-artifact_uri = os.path.join("s3://", bucket_name, artifact_path)
+s3_artifact_repo = S3ArtifactRepository(f"s3://{bucket_name}")
+artifact_uri = s3_artifact_repo.get_artifact_uri(artifact_path)
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
