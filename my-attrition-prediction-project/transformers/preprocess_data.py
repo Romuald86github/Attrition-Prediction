@@ -92,7 +92,6 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
     # Log the model to S3 artifact storage
     with mlflow.start_run() as run:
         mlflow.pyfunc.log_model(
-            artifact_path="preprocessing_pipeline",
             python_model=custom_model,
             signature=signature,
             artifact_path=artifact_uri
