@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 from scipy.stats import yeojohnson, skew
 import boto3
-import pickle
+import cloudpickle
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
@@ -24,7 +24,7 @@ aws_region = os.getenv('AWS_DEFAULT_REGION')
 
 # Set the S3 bucket and path
 bucket_name = "attritionproject"
-artifact_path = "attrition/artifacts"
+artifact_path = "attrition/mlflow/artifacts"
 artifact_uri = f"s3://{bucket_name}/{artifact_path}"
 
 # Initialize boto3 client
@@ -93,7 +93,7 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
     ])
 
     # Save preprocessing pipeline to S3
-    pipeline_bytes = pickle.dumps(preprocessing_pipeline)
+    pipeline_bytes = cloudpickle.dumps(preprocessing_pipeline)
     s3_client.put_object(Bucket=bucket_name, Key=f"{artifact_path}/preprocessing_pipeline.pkl", Body=pipeline_bytes)
 
     return preprocessed_data
