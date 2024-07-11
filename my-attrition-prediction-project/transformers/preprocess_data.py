@@ -1,12 +1,13 @@
+# preprocess_data.py
+
 import os
 import pandas as pd
 from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 from scipy.stats import yeojohnson, skew
-import mlflow
-import mlflow.pyfunc
-from mlflow.models.signature import infer_signature
+import boto3
+import pickle
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
@@ -16,19 +17,29 @@ if 'transformer' not in globals():
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
-# Set the MLflow tracking URI
-# mlflow.set_tracking_uri("http://localhost:5005")
+# Ensure AWS credentials are set in the environment
+aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+aws_region = os.getenv('AWS_DEFAULT_REGION')
 
-# Set the artifact URI to S3
+# Set the S3 bucket and path
 bucket_name = "attritionproject"
-artifact_path = "attrition/mlflow/artifacts"
+artifact_path = "attrition/artifacts"
 artifact_uri = f"s3://{bucket_name}/{artifact_path}"
 
-class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
+# Initialize boto3 client
+s3_client = boto3.client(
+    's3',
+    region_name=aws_region,
+    aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key
+)
+
+class PreprocessingPipeline:
     def __init__(self, pipeline):
         self.pipeline = pipeline
 
-    def predict(self, context, model_input):
+    def transform(self, model_input):
         return self.pipeline.transform(model_input)
 
 @transformer
@@ -77,26 +88,23 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
 
     preprocessed_data = (X_train, X_val, X_test, y_train, y_val, y_test)
 
-    # Log preprocessing steps to MLflow
+    # Create preprocessing pipeline
     preprocessing_pipeline = Pipeline(steps=[
         ('skewness_transformer', skewness_transformer),
         ('column_transformer', column_transformer),
         ('scaler', scaler)
     ])
 
-    # Create the custom PythonModel
-    custom_model = PreprocessingPipeline(preprocessing_pipeline)
+    # Save preprocessing pipeline to a local file
+    pipeline_path = 'preprocessing_pipeline.pkl'
+    with open(pipeline_path, 'wb') as f:
+        pickle.dump(preprocessing_pipeline, f)
 
-    # Infer the signature of the pipeline
-    signature = infer_signature(X_train)
+    # Upload the file to S3
+    s3_client.upload_file(pipeline_path, bucket_name, f"{artifact_path}/preprocessing_pipeline.pkl")
 
-    # Log the model to S3 artifact storage
-    with mlflow.start_run() as run:
-        mlflow.pyfunc.log_model(
-            artifact_path='preprocessing_pipeline',
-            python_model=custom_model,
-            signature=signature
-        )
+    # Clean up local file
+    os.remove(pipeline_path)
 
     return preprocessed_data
 
