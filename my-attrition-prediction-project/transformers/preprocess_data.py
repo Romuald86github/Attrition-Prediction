@@ -96,8 +96,6 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
     # Upload the file to S3
     s3_client.upload_file(pipeline_path, bucket_name, f"{artifact_path}/preprocessing_pipeline.pkl")
 
-    # Clean up local file
-    os.remove(pipeline_path)
 
     return preprocessed_data
 
