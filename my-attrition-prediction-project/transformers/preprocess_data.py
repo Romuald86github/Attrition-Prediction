@@ -16,11 +16,12 @@ if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
 # Set the MLflow tracking URI
-bucket_name = "attritionproject"
-tracking_path = "attrition/mlflow/tracking"
-mlflow.set_tracking_uri(f"s3://{bucket_name}/{tracking_path}")
+mlflow.set_tracking_uri("http://localhost:5001")
 
 # Set the artifact URI to S3
+
+bucket_name = "attritionproject"
+
 artifact_uri = f"s3://{bucket_name}/attrition/mlflow/artifacts"
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
