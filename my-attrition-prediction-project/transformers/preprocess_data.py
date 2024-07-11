@@ -17,7 +17,7 @@ if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
 # Set the MLflow tracking URI
-mlflow.set_tracking_uri("http://localhost:5005")
+# mlflow.set_tracking_uri("http://localhost:5005")
 
 # Set the artifact URI to S3
 bucket_name = "attritionproject"
