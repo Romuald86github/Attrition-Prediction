@@ -92,10 +92,6 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
         ('scaler', scaler)
     ])
 
-    # Save preprocessing pipeline to a local file
-    pipeline_path = 'preprocessing_pipeline.pkl'
-    with open(pipeline_path, 'wb') as f:
-        pickle.dump(preprocessing_pipeline, f)
 
     # Upload the file to S3
     s3_client.upload_file(pipeline_path, bucket_name, f"{artifact_path}/preprocessing_pipeline.pkl")
