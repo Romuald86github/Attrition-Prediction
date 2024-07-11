@@ -94,7 +94,7 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
 
 
     # Upload the file to S3
-    s3_client.upload_file(pipeline_path, bucket_name, f"{artifact_path}/preprocessing_pipeline.pkl")
+    s3_client.upload_file(bucket_name, f"{artifact_path}/preprocessing_pipeline.pkl")
 
 
     return preprocessed_data
