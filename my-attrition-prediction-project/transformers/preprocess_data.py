@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from pandas import DataFrame
 from sklearn.model_selection import train_test_split
@@ -9,9 +10,6 @@ from mlflow.models.signature import infer_signature
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
-import os
-from mlflow.store.artifact.s3_artifact_repo import S3ArtifactRepository
-
 
 if 'transformer' not in globals():
     from mage_ai.data_preparation.decorators import transformer
@@ -22,11 +20,9 @@ if 'test' not in globals():
 mlflow.set_tracking_uri("http://localhost:5001")
 
 # Set the artifact URI to S3
-
 bucket_name = "attritionproject"
 artifact_path = "attrition/mlflow/artifacts"
-s3_artifact_repo = S3ArtifactRepository(f"s3://{bucket_name}")
-artifact_uri = s3_artifact_repo.get_artifact_uri(artifact_path)
+artifact_uri = f"s3://{bucket_name}/{artifact_path}"
 
 class PreprocessingPipeline(mlflow.pyfunc.PythonModel):
     def __init__(self, pipeline):
@@ -97,9 +93,9 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
     # Log the model to S3 artifact storage
     with mlflow.start_run() as run:
         mlflow.pyfunc.log_model(
+            artifact_path='preprocessing_pipeline',
             python_model=custom_model,
-            signature=signature,
-            artifact_path=artifact_uri
+            signature=signature
         )
 
     return preprocessed_data
