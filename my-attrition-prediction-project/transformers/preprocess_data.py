@@ -17,9 +17,20 @@ if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
 # Retrieve AWS credentials from Mage Secrets
-aws_access_key_id = get_secret_value('aws_access_key_id')
-aws_secret_access_key = get_secret_value('aws_secret_access_key')
-aws_region = get_secret_value('aws_region')
+try:
+    aws_access_key_id = get_secret_value('aws_access_key_id')
+    aws_secret_access_key = get_secret_value('aws_secret_access_key')
+    aws_region = get_secret_value('aws_region')
+except Exception as e:
+    raise ValueError(f"Error retrieving secrets: {e}")
+
+# Verify if secrets are retrieved correctly (be cautious with printing secrets)
+print(f"AWS Access Key ID: {aws_access_key_id}")
+print(f"AWS Secret Access Key: {aws_secret_access_key}")
+print(f"AWS Region: {aws_region}")
+
+if not all([aws_access_key_id, aws_secret_access_key, aws_region]):
+    raise ValueError("AWS credentials are not properly configured in Mage secrets.")
 
 # Set the S3 bucket and path
 bucket_name = "attritionproject"
