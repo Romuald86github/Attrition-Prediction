@@ -70,7 +70,8 @@ def test_preprocess_data(data: DataFrame) -> None:
     """
     Template code for testing the output of the block.
     """
-    X_train, X_val, X_test, y_train, y_val, y_test = preprocess_data(data)
+    preprocessed_data = preprocess_data(data)
+    X_train, X_val, X_test, y_train, y_val, y_test = preprocessed_data
     assert X_train is not None, 'The X_train output is undefined'
     assert X_val is not None, 'The X_val output is undefined'
     assert X_test is not None, 'The X_test output is undefined'
