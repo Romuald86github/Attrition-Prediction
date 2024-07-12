@@ -18,8 +18,8 @@ if 'test' not in globals():
 
 # Retrieve AWS credentials from Mage Secrets
 try:
-    aws_access_key_id = get_secret_value('aws_access_key_id')
-    aws_secret_access_key = get_secret_value('aws_secret_access_key')
+    aws_access_key_id = get_secret_value('Access key ID')
+    aws_secret_access_key = get_secret_value('Secret access key')
     aws_region = get_secret_value('aws_region')
 except Exception as e:
     raise ValueError(f"Error retrieving secrets: {e}")
@@ -123,3 +123,4 @@ def test_preprocess_data(data: DataFrame) -> None:
     assert isinstance(X_train, DataFrame), 'The X_train output is not a Pandas DataFrame'
     assert isinstance(X_val, DataFrame), 'The X_val output is not a Pandas DataFrame'
     assert isinstance(X_test, DataFrame), 'The X_test output is not a Pandas DataFrame'
+
