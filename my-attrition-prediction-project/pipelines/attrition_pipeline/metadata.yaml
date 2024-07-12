@@ -77,7 +77,7 @@ blocks:
   language: python
   name: export_data
   retry_config: null
-  status: not_executed
+  status: updated
   timeout: null
   type: data_exporter
   upstream_blocks:
