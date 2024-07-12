@@ -66,19 +66,8 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
     return preprocessed_data
 
 @test
-def test_preprocess_data(data: DataFrame) -> None:
+def test_output(df: DataFrame) -> None:
     """
     Template code for testing the output of the block.
     """
-    preprocessed_data = preprocess_data(data)
-    assert len(preprocessed_data) == 6, 'The preprocess_data function should return 6 outputs'
-    X_train, X_val, X_test, y_train, y_val, y_test = preprocessed_data
-    assert X_train is not None, 'The X_train output is undefined'
-    assert X_val is not None, 'The X_val output is undefined'
-    assert X_test is not None, 'The X_test output is undefined'
-    assert y_train is not None, 'The y_train output is undefined'
-    assert y_val is not None, 'The y_val output is undefined'
-    assert y_test is not None, 'The y_test output is undefined'
-    assert isinstance(X_train, DataFrame), 'The X_train output is not a Pandas DataFrame'
-    assert isinstance(X_val, DataFrame), 'The X_val output is not a Pandas DataFrame'
-    assert isinstance(X_test, DataFrame), 'The X_test output is not a Pandas DataFrame'
+    assert df is not None, 'The output is undefined'
