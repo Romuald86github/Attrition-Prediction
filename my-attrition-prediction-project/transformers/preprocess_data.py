@@ -4,53 +4,14 @@ from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 from scipy.stats import yeojohnson, skew
-import boto3
-import cloudpickle
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
-from mage_ai.data_preparation.shared.secrets import get_secret_value
 
 if 'transformer' not in globals():
     from mage_ai.data_preparation.decorators import transformer
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
-
-# Retrieve AWS credentials from Mage Secrets
-try:
-    aws_access_key_id = get_secret_value('Access key ID')
-    aws_secret_access_key = get_secret_value('Secret access key')
-    aws_region = get_secret_value('aws_region')
-except Exception as e:
-    raise ValueError(f"Error retrieving secrets: {e}")
-
-# Verify if secrets are retrieved correctly (be cautious with printing secrets)
-print(f"AWS Access Key ID: {aws_access_key_id}")
-print(f"AWS Secret Access Key: {aws_secret_access_key}")
-print(f"AWS Region: {aws_region}")
-
-if not all([aws_access_key_id, aws_secret_access_key, aws_region]):
-    raise ValueError("AWS credentials are not properly configured in Mage secrets.")
-
-# Set the S3 bucket and path
-bucket_name = "attritionproject"
-artifact_path = "attrition/mlflow/artifacts"
-artifact_uri = f"s3://{bucket_name}/{artifact_path}"
-
-# Initialize boto3 client
-s3_client = boto3.client(
-    's3',
-    region_name=aws_region,
-    aws_access_key_id=aws_access_key_id,
-    aws_secret_access_key=aws_secret_access_key
-)
-
-class PreprocessingPipeline:
-    def __init__(self, pipeline):
-        self.pipeline = pipeline
-
-    def transform(self, model_input):
-        return self.pipeline.transform(model_input)
 
 def remove_skewness(X: DataFrame) -> DataFrame:
     skewed_cols = [col for col in X.select_dtypes(include=['float64', 'int64']).columns if skew(X[col]) > 0.5]
@@ -102,10 +63,6 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
         ('scaler', scaler)
     ])
 
-    # Save preprocessing pipeline to S3
-    pipeline_bytes = cloudpickle.dumps(preprocessing_pipeline)
-    s3_client.put_object(Bucket=bucket_name, Key=f"{artifact_path}/preprocessing_pipeline.pkl", Body=pipeline_bytes)
-
     return preprocessed_data
 
 @test
@@ -123,4 +80,3 @@ def test_preprocess_data(data: DataFrame) -> None:
     assert isinstance(X_train, DataFrame), 'The X_train output is not a Pandas DataFrame'
     assert isinstance(X_val, DataFrame), 'The X_val output is not a Pandas DataFrame'
     assert isinstance(X_test, DataFrame), 'The X_test output is not a Pandas DataFrame'
-
