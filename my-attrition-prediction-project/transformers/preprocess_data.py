@@ -66,25 +66,21 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
     return preprocessed_data
 
 @test
-def test_X_train(X_train: DataFrame) -> None:
+def test_preprocess_data(preprocessed_data: tuple) -> None:
+    """
+    Template code for testing the output of the block.
+    """
+    assert len(preprocessed_data) == 6, 'The preprocess_data function should return 6 outputs'
+    X_train, X_val, X_test, y_train, y_val, y_test = preprocessed_data
     assert X_train is not None, 'The X_train output is undefined'
-
-@test
-def test_X_val(X_val: DataFrame) -> None:
     assert X_val is not None, 'The X_val output is undefined'
-
-@test
-def test_X_test(X_test: DataFrame) -> None:
     assert X_test is not None, 'The X_test output is undefined'
-
-@test
-def test_y_train(y_train: DataFrame) -> None:
     assert y_train is not None, 'The y_train output is undefined'
-
-@test
-def test_y_val(y_val: DataFrame) -> None:
     assert y_val is not None, 'The y_val output is undefined'
-
-@test
-def test_y_test(y_test: DataFrame) -> None:
     assert y_test is not None, 'The y_test output is undefined'
+    assert isinstance(X_train, pd.DataFrame), 'The X_train output is not a Pandas DataFrame'
+    assert isinstance(X_val, pd.DataFrame), 'The X_val output is not a Pandas DataFrame'
+    assert isinstance(X_test, pd.DataFrame), 'The X_test output is not a Pandas DataFrame'
+    assert isinstance(y_train, pd.Series), 'The y_train output is not a Pandas Series'
+    assert isinstance(y_val, pd.Series), 'The y_val output is not a Pandas Series'
+    assert isinstance(y_test, pd.Series), 'The y_test output is not a Pandas Series'
