@@ -1,21 +1,12 @@
-import os
 import pickle
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-from mage_ai.data_preparation.decorators import transformer, data_exporter
+from mage_ai.data_preparation.decorators import transformer
 from pandas import DataFrame
 
-@data_exporter
-def export_data() -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
-    # Load the preprocessed data from the file
-    with open('preprocessed_data.pkl', 'rb') as f:
-        X_train, X_val, X_test, y_train, y_val, y_test = pickle.load(f)
-
-    return X_train, X_val, X_test, y_train, y_val, y_test
-
 @transformer
-def train_model(X_train, y_train, X_val, y_val, X_test, y_test):
+def train_model(X_train: DataFrame, y_train: DataFrame, X_val: DataFrame, y_val: DataFrame, X_test: DataFrame, y_test: DataFrame) -> RandomForestClassifier:
     best_model = None
     best_score = 0
 
@@ -68,11 +59,6 @@ def train_model(X_train, y_train, X_val, y_val, X_test, y_test):
         test_f1 = f1_score(y_test, y_pred_test, pos_label=1)
         val_roc_auc = roc_auc_score(y_val, best_model.predict_proba(X_val)[:, 1])
         test_roc_auc = roc_auc_score(y_test, best_model.predict_proba(X_test)[:, 1])
-
-        os.makedirs('my-attrition-prediction-project/models', exist_ok=True)
-        model_path = 'my-attrition-prediction-project/models/best_model.pkl'
-        with open(model_path, 'wb') as f:
-            pickle.dump(best_model, f)
 
         print(f"Tuned RandomForestClassifier validation accuracy: {val_accuracy}, test accuracy: {test_accuracy}")
 
