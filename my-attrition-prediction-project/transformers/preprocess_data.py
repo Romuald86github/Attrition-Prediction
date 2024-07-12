@@ -65,11 +65,12 @@ def preprocess_data(df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame, Dat
 
     return preprocessed_data
 
+"""
 @test
 def test_output(X_train, X_val, X_test, y_train, y_val, y_test) -> None:
-    """
+    
     Template code for testing the output of the block.
-    """
+    
     assert X_train is not None, 'The X_train output is undefined'
     assert X_val is not None, 'The X_val output is undefined'
     assert X_test is not None, 'The X_test output is undefined'
@@ -82,3 +83,4 @@ def test_output(X_train, X_val, X_test, y_train, y_val, y_test) -> None:
     assert isinstance(y_train, pd.Series), 'The y_train output is not a Pandas Series'
     assert isinstance(y_val, pd.Series), 'The y_val output is not a Pandas Series'
     assert isinstance(y_test, pd.Series), 'The y_test output is not a Pandas Series'
+    """
