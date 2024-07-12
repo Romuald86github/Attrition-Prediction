@@ -8,10 +8,9 @@ if 'data_exporter' not in globals():
     from mage_ai.data_preparation.decorators import data_exporter
 
 @data_exporter
-def export_data(X_train: DataFrame, X_val: DataFrame, X_test: DataFrame, y_train: DataFrame, y_val: DataFrame, y_test: DataFrame) -> None:
+def export_data_to_file(df: DataFrame, **kwargs) -> None:
     """
     Template for exporting preprocessed data to filesystem as a pickle file.
     """
     filepath = 'preprocessed_data.pkl'
-    preprocessed_data = (X_train, X_val, X_test, y_train, y_val, y_test)
-    FileIO().export(preprocessed_data, filepath, file_format='pickle')
+    pFileIO().export(df, filepath)
