@@ -3,7 +3,16 @@ import pickle
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-from mage_ai.data_preparation.decorators import transformer
+from mage_ai.data_preparation.decorators import transformer, data_exporter
+from pandas import DataFrame
+
+@data_exporter
+def export_data() -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
+    # Load the preprocessed data from the file
+    with open('preprocessed_data.pkl', 'rb') as f:
+        X_train, X_val, X_test, y_train, y_val, y_test = pickle.load(f)
+
+    return X_train, X_val, X_test, y_train, y_val, y_test
 
 @transformer
 def train_model(X_train, y_train, X_val, y_val, X_test, y_test):
